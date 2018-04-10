@@ -1,0 +1,21 @@
+<div>
+	<h2>All Trips</h2>
+	<table class="table table-strped table-bordered">
+		<thead>
+			<tr>
+				<th>Departure</th>
+				<th>Destination</th>
+				<th>Start Date</th>
+				<th>Complete Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="trip in trips">
+				<td>{{trip.departure}}</td>
+				<td>{{trip.arrival}}</td>
+				<td>{{trip.startDate}}</td>
+				<td>{{trip.endDate}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

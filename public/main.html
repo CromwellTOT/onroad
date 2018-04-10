@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>onroad</title>
+	<title>OnRoad</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-route.min.js"></script>
+	<script src="js/angular-resource.min.js"></script>
+	<script src="js/jquery-3.1.0.min.js"></script>
+	<script src="js/dataservice.js"></script>
+	<script src="js/myapp.js"></script>
+	<script>
+		$(document).ready(function() {
+			$(".toggle").on("click", function() {
+				if($(this).hasClass("active")){
+					return;
+				} else {
+					$("ul.nav li").removeClass("active");
+					$(this).addClass("active");
+				}
+			});
+		});
+	</script>
 </head>
-<body>
-	<h1>onroad!!</h1>
+<body ng-app="mainApp">
+<div class="container" ng-controller="mainCtrl">
+	<h1>MEAN Stack Application</h1>
+	<hr>
+	<ul class="nav nav-tabs">
+  		<li class="toggle active"><a href="#home">Home</a></li>
+  		<li class="toggle"><a href="#allTrips">Trips</a></li>
+  		<li class="toggle" style="float: right;"><a href="#account/me">Account</a></li>
+	</ul>
+	<div ng-view></div>
+</div>
 </body>
 </html>

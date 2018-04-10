@@ -14,4 +14,4 @@ MEAN web app
 ```
 node server
 ```
-* landing page at [here](localhost:4444)
+* landing page at [here](http://localhost:4444)
