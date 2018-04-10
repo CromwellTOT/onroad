@@ -2,17 +2,16 @@
 
 MEAN web app
 
-[MongoDB](https://www.mongodb.com/) - NoSQL Database
-[Express](https://expressjs.com/) - Nodejs Framework
-[Angular](https://angular.io/) - Frontend JS Framework
-[Node](https://nodejs.org/en/) - backend JS
+[MongoDB](https://www.mongodb.com/) - NoSQL Database<br/>
+[Express](https://expressjs.com/) - Nodejs Framework<br/>
+[Angular](https://angular.io/) - Frontend JS Framework<br/>
+[Node](https://nodejs.org/en/) - backend JS<br/>
 
 ## Deployment
 
 * Install MongoDB locally
-* Navigate to dir
+* Navigate to dir, type following code to start the server
 ```
 node server
 ```
-to start node server
-* landing page at localhost:4444
+* landing page at [here](localhost:4444)
