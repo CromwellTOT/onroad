@@ -25,7 +25,7 @@ router.post("/", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
 		dd.insert(db, data, function() {
-			resp.end('trip ' + data.id + " created");
+			resp.end('Trip ' + data.id + " created");
 			tripId++;
 			tripId = tripId.toString();
 			client.close();
@@ -52,7 +52,7 @@ router.put("/", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
 		dd.update(db, {"id": id}, data, function() {
-			resp.end("trip " + id + ' updated');
+			resp.end("Trip " + id + ' updated');
 			client.close();
 		});
 	});
@@ -63,7 +63,7 @@ router.delete("/:id", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
 		dd.delete(db, {"id": id}, function() {
-			resp.end("trip " + id + ' deleted');
+			resp.end("Trip " + id + ' deleted');
 			client.close();
 		});
 	});

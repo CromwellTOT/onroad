@@ -1,11 +1,13 @@
 var express = require("express");
 var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
-var dd = require("./userdao");
+var dd = require("./blogdao");
 var url = "mongodb://localhost:27017";
+var blogId = "1";
+
 
 dbName = "mydb";
-dd.collectionName = 'users'
+dd.collectionName = 'blogs'
 
 router.get("/", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
@@ -19,20 +21,25 @@ router.get("/", function(req, resp) {
 
 router.post("/", function(req, resp) {
 	var data = req.body;
+	data.id = blogId;
+
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
 		dd.insert(db, data, function() {
-			resp.end("User " + data.name + " created");
+			resp.end('Blog ' + data.id + " created");
+			blogId++;
+			blogId = blogId.toString();
 			client.close();
 		});
 	});
 });
 
-router.get("/:name", function(req, resp) {
-	var name = req.params.name;
+router.get("/:id", function(req, resp) {
+	var id = req.params.id;
+
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.findOne(db, {"name": name}, function(result) {
+		dd.findOne(db, {"id": id}, function(result) {
 			resp.json(result);
 			client.close();
 		});
@@ -40,25 +47,25 @@ router.get("/:name", function(req, resp) {
 });
 
 router.put("/", function(req, resp) {
-	var data = req.body;
-
-	var name = data.name
-
+	var data = req.body,
+		id = data.id;
+	
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.update(db, {"name": name}, data, function() {
-			resp.end("User " + name + " updated");
+		dd.update(db, {"id": id}, data, function() {
+			resp.end("Blog " + id + ' updated');
 			client.close();
 		});
 	});
 });
 
-router.delete("/:name", function(req, resp) {
-	var name = req.params.name;
+router.delete("/:id", function(req, resp) {
+	var id = req.params.id;
+
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.delete(db, {"name": name}, function() {
-			resp.end("User " + name + " deleted");
+		dd.delete(db, {"id": id}, function() {
+			resp.end("Blog " + id + ' deleted');
 			client.close();
 		});
 	});
