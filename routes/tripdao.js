@@ -26,6 +26,21 @@ dd.findOne = function(db, keyValuePair, callback) {
 	});
 };
 
+dd.findMultiple = function(db, key, value, callback) {
+	var query = {}
+	query[key] = value;
+	
+	var collection = db.collection(dd.collectionName).find(query);
+	var result = [];
+	collection.each(function(err, doc) {
+		if (doc !== null) {
+			result.push(doc);
+		} else{
+			callback(result);
+		}
+	});
+};
+
 dd.insert = function(db, data, callback) {
 	var collection = db.collection(dd.collectionName);
 	collection.insertOne(data, function(err, res) {

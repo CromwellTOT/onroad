@@ -22,6 +22,7 @@ router.get("/", function(req, resp) {
 router.post("/", function(req, resp) {
 	var data = req.body;
 	data.id = tripId;
+
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
 		dd.insert(db, data, function() {
@@ -32,8 +33,8 @@ router.post("/", function(req, resp) {
 		});
 	});
 });
-
-router.get("/:id", function(req, resp) {
+/*
+router.get("/id/:id", function(req, resp) {
 	var id = req.params.id;
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
@@ -43,10 +44,22 @@ router.get("/:id", function(req, resp) {
 		});
 	});
 });
+*/
+router.get("/:key/:value", function(req, resp) {
+	var key = req.params.key,
+		value = req.params.value;
+
+	MongoClient.connect(url, function(err, client) {
+		var db = client.db(dbName);
+		dd.findMultiple(db, key, value, function(result) {
+			resp.json(result);
+			client.close();
+		})
+	})
+});
 
 router.put("/", function(req, resp) {
 	var data = req.body;
-
 	var id = data.id
 	
 	MongoClient.connect(url, function(err, client) {
@@ -60,6 +73,7 @@ router.put("/", function(req, resp) {
 
 router.delete("/:id", function(req, resp) {
 	var id = req.params.id;
+
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
 		dd.delete(db, {"id": id}, function() {

@@ -64,6 +64,17 @@ router.delete("/:name", function(req, resp) {
 	});
 });
 
+router.delete("/id/:value", function(req, resp) {
+	var _id = req.params.value;
+	MongoClient.connect(url, function(err, client) {
+		var db = client.db(dbName);
+		dd.deleteBy_id(db, _id, function() {
+			resp.end("Limited use ONLY!!!! User " + _id + " deleted");
+			client.close();
+		})
+	})
+})
+
 module.exports = router;
 
 

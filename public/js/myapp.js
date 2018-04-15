@@ -22,14 +22,24 @@ app.config(["$routeProvider", function($routeProvider) {
 	})
 }]);
 
-app.controller("homeCtrl", ["$scope", "$ts", "$us", "$location", function($scope, $ts, $us, $location) {
+app.controller("homeCtrl", ["$scope", "$ts", "$location", function($scope, $ts, $location) {
+	$scope.c = 0;
 	$scope.doClear = function() {
 		$scope.trip = {};
 	};
 	$scope.doSubmit = function() {
-		$ts.createTrip($scope.trip).then(function(resp) {
-			$location.path("/home");
+		$ts.getTrips("departure", $scope.trip.departure).then(function(data) {
+			$scope.tripList = data;
+			$scope.currentTrip = $scope.tripList[$scope.c];
 		});
+	};
+	$scope.goPrevious = function() {
+		$scope.c--;
+		$scope.currentTrip = $scope.tripList[$scope.c];
+	};
+	$scope.goNext = function() {
+		$scope.c++;
+		$scope.currentTrip = $scope.tripList[$scope.c];
 	};
 }]);
 

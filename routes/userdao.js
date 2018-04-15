@@ -1,4 +1,5 @@
 var dd = {};
+var mongodb = require("mongodb");
 
 //var dd.collectionName
 
@@ -47,5 +48,13 @@ dd.delete = function(db, keyValuePair, callback) {
 		callback();
 	});
 };
+
+dd.deleteBy_id = function(db, _id, callback) {
+	var collection = db.collection(dd.collectionName);
+	collection.deleteOne({"_id": new mongodb.ObjectID(_id)}, function(err, res) {
+		callback();
+	});
+}
+
 
 module.exports = dd;

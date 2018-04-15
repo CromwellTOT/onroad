@@ -48,9 +48,9 @@
 				});
 				return defer.promise;
 			},
-			getOneTrip: function(id) {
+			getTrips: function(key, value) {
 				var defer = $q.defer();
-				$http.get("/rest/trip/" + id).then(function(resp) {
+				$http.get("/rest/trip/" + key + '/' + value).then(function(resp) {
 					defer.resolve(resp.data);
 				});
 				return defer.promise;

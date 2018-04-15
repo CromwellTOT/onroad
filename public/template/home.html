@@ -22,4 +22,53 @@
 			<button class="btn btn-primary" ng-click="doSubmit()">Submit</button>
 		</div>
 	</form>
+	<div id="trips" ng-show="tripList.length">
+		<hr>
+		<div class="row">
+			<div class="col-md-1">
+				<button class="btn btn-default" ng-click="goPrevious()" ng-disabled="c==0">Previous</button>
+			</div>
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-3">
+								{{currentTrip.title}}
+							</div>
+							<div class="col-md-offset-1 col-md-1">
+								{{currentTrip.departure}}
+							</div>
+							<div class="col-md-1">
+								->
+							</div>
+							<div class="col-md-1">
+								{{currentTrip.arrival}}
+							</div>
+							<div class="col-md-offset-1 col-md-1">
+								{{currentTrip.startDate}}
+							</div>
+							<div class="col-md-1">
+								->
+							</div>
+							<div class="col-md-1">
+								{{currentTrip.endDate}}
+							</div>
+						</div>
+						<div>
+							{{currentTrip.content}}
+						</div>
+					</div>
+					<div class="col-md-3">
+						<button class="btn btn-primary" ng-click="participate()">Participate</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1">
+				<button class="btn btn-default" ng-click="goNext()" ng-disabled="c==tripList.length-1">Next</button>		
+			</div>
+		</div>
+	</div>
+	<div id="blog">
+		
+	</div>
 </div>
