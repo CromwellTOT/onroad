@@ -5,7 +5,7 @@ var bodyParser = require("body-parser");
 var app = express();
 var ts = require("./routes/tripservice");
 var us = require("./routes/userservice");
-var us = require("./routes/blogservice");
+var bs = require("./routes/blogservice");
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
