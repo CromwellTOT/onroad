@@ -4,12 +4,14 @@ var bodyParser = require("body-parser");
 
 var app = express();
 var ts = require("./routes/tripservice");
-var us = require("./routes/userservice")
+var us = require("./routes/userservice");
+var us = require("./routes/blogservice");
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use("/rest/trip/", ts);
 app.use("/rest/user/", us);
+app.use("/rest/blog/", bs);
 
 app.use(express.static(__dirname + "/public")); // use for front end file access
 

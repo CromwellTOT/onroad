@@ -1,18 +1,18 @@
 var express = require("express");
 var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
-var dd = require("./blogdao");
+var bd = require("./blogdao");
 var url = "mongodb://localhost:27017";
 var blogId = "1";
 
 
 dbName = "mydb";
-dd.collectionName = 'blogs'
+bd.collectionName = 'blogs'
 
 router.get("/", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.findAll(db, result => {
+		bd.findAll(db, result => {
 			resp.json(result);
 			client.close();
 		});
@@ -25,7 +25,7 @@ router.post("/", function(req, resp) {
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.insert(db, data, function() {
+		bd.insert(db, data, function() {
 			resp.end('Blog ' + data.id + " created");
 			blogId++;
 			blogId = blogId.toString();
@@ -39,7 +39,7 @@ router.get("/:id", function(req, resp) {
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.findOne(db, {"id": id}, function(result) {
+		bd.findOne(db, {"id": id}, function(result) {
 			resp.json(result);
 			client.close();
 		});
@@ -52,7 +52,7 @@ router.put("/", function(req, resp) {
 	
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.update(db, {"id": id}, data, function() {
+		bd.update(db, {"id": id}, data, function() {
 			resp.end("Blog " + id + ' updated');
 			client.close();
 		});
@@ -64,7 +64,7 @@ router.delete("/:id", function(req, resp) {
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.delete(db, {"id": id}, function() {
+		bd.delete(db, {"id": id}, function() {
 			resp.end("Blog " + id + ' deleted');
 			client.close();
 		});
