@@ -32,7 +32,7 @@ router.get("/:name", function(req, resp) {
 	var name = req.params.name;
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.findOne(db, {"name": name}, function(result) {
+		dd.findOne(db, {"username": name}, function(result) {
 			resp.json(result);
 			client.close();
 		});
@@ -46,7 +46,7 @@ router.put("/", function(req, resp) {
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.update(db, {"name": name}, data, function() {
+		dd.update(db, {"username": name}, data, function() {
 			resp.end("User " + name + " updated");
 			client.close();
 		});
@@ -57,7 +57,7 @@ router.delete("/:name", function(req, resp) {
 	var name = req.params.name;
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.delete(db, {"name": name}, function() {
+		dd.delete(db, {"username": name}, function() {
 			resp.end("User " + name + " deleted");
 			client.close();
 		});
