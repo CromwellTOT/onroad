@@ -1,16 +1,16 @@
 var express = require("express");
 var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
-var dd = require("./userdao");
+var ud = require("./userdao");
 var url = "mongodb://localhost:27017";
 
-dbName = "mydb";
-dd.collectionName = 'users'
+var dbName = "mydb";
+ud.collectionName = 'users'
 
 router.get("/", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.findAll(db, result => {
+		ud.findAll(db, result => {
 			resp.json(result);
 			client.close();
 		});
@@ -21,7 +21,7 @@ router.post("/", function(req, resp) {
 	var data = req.body;
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.insert(db, data, function() {
+		ud.insert(db, data, function() {
 			resp.end("User " + data.name + " created");
 			client.close();
 		});
@@ -32,7 +32,7 @@ router.get("/:name", function(req, resp) {
 	var name = req.params.name;
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.findOne(db, {"username": name}, function(result) {
+		ud.findOne(db, {"username": name}, function(result) {
 			resp.json(result);
 			client.close();
 		});
@@ -46,7 +46,7 @@ router.put("/", function(req, resp) {
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.update(db, {"username": name}, data, function() {
+		ud.update(db, {"username": name}, data, function() {
 			resp.end("User " + name + " updated");
 			client.close();
 		});
@@ -57,7 +57,7 @@ router.delete("/:name", function(req, resp) {
 	var name = req.params.name;
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.delete(db, {"username": name}, function() {
+		ud.delete(db, {"username": name}, function() {
 			resp.end("User " + name + " deleted");
 			client.close();
 		});
@@ -68,7 +68,7 @@ router.delete("/id/:value", function(req, resp) {
 	var _id = req.params.value;
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		dd.deleteBy_id(db, _id, function() {
+		ud.deleteBy_id(db, _id, function() {
 			resp.end("Limited use ONLY!!!! User " + _id + " deleted");
 			client.close();
 		})

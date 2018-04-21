@@ -3,12 +3,23 @@ var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
 var bd = require("./blogdao");
 var url = "mongodb://localhost:27017";
-var blogId = "1";
 
-
-dbName = "mydb";
+var dbName = "mydb";
 bd.collectionName = 'blogs'
-
+// init start blog ID for creating
+var blogId = "1";
+MongoClient.connect(url, function(err, client) {
+	var db = client.db(dbName);
+	bd.findAll(db, result => {
+		result.forEach(function(item) {
+			if(item.id > blogId) {
+				blogId = item.id;
+			}
+		});
+		blogId++;
+	});
+});
+// rest service
 router.get("/", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
