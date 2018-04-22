@@ -22,11 +22,29 @@ router.post("/", function(req, resp) {
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
 		ud.insert(db, data, function() {
-			resp.end("User " + data.name + " created");
+			resp.end("User " + data.username + " created");
 			client.close();
 		});
 	});
 });
+
+router.post("/auth", function(req, resp) {
+	var data = req.body;
+	MongoClient.connect(url, function(err, client) {
+		var db = client.db(dbName);
+		ud.findAll(db, result => {
+			var auth = false;
+			result.forEach((user) => {
+				if(user.username == data.username && user.password == data.password) {
+					auth = true;
+					console.log(data.username + ' auth success');
+				}
+			});
+			resp.end(auth + "");
+			client.close();
+		});
+	});
+})
 
 router.get("/:name", function(req, resp) {
 	var name = req.params.name;
@@ -42,7 +60,7 @@ router.get("/:name", function(req, resp) {
 router.put("/", function(req, resp) {
 	var data = req.body;
 
-	var name = data.name
+	var name = data.username
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);

@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<script src="js/angular.min.js"></script>
 	<script src="js/angular-route.min.js"></script>
+	<script src="js/angular-local-storage.min.js"></script>
 	<script src="js/angular-resource.min.js"></script>
 	<script src="js/jquery-3.1.0.min.js"></script>
 	<script src="js/dataservice.js"></script>
@@ -21,6 +22,36 @@
 			});
 		});
 	</script>
+	<style type="text/css">
+		.thumbnail {
+		    padding:0px;
+		}
+		.panel {
+			position:relative;
+		}
+		.panel>.panel-heading:after,.panel>.panel-heading:before{
+			position:absolute;
+			top:11px;left:-16px;
+			right:100%;
+			width:0;
+			height:0;
+			display:block;
+			content:" ";
+			border-color:transparent;
+			border-style:solid solid outset;
+			pointer-events:none;
+		}
+		.panel>.panel-heading:after{
+			border-width:7px;
+			border-right-color:#f7f7f7;
+			margin-top:1px;
+			margin-left:2px;
+		}
+		.panel>.panel-heading:before{
+			border-right-color:#ddd;
+			border-width:8px;
+		}
+	</style>
 </head>
 <body ng-app="mainApp">
 <div class="container" ng-controller="mainCtrl">
@@ -29,7 +60,7 @@
 	<ul class="nav nav-tabs">
   		<li class="toggle active"><a href="#home">Home</a></li>
   		<li class="toggle"><a href="#allTrips">Trips</a></li>
-  		<li class="toggle" style="float: right;"><a href="#account/me">Account</a></li>
+  		<li class="toggle" style="float: right;"><a href="#account">Account</a></li>
 	</ul>
 	<div ng-view></div>
 </div>

@@ -12,9 +12,12 @@
 		<tbody>
 			<tr ng-repeat="trip in trips">
 				<td>{{trip.departure}}</td>
-				<td>{{trip.arrival}}</td>
-				<td>{{trip.startDate}}</td>
-				<td>{{trip.endDate}}</td>
+				<td>{{trip.destination}}</td>
+				<td>{{trip.start_date}}</td>
+				<td>{{trip.end_date}}</td>
+				<td>
+					<button class="btn btn-primary" ng-click="participate()" ng-disabled="true">Participate</button>
+				</td>	
 			</tr>
 		</tbody>
 	</table>

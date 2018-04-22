@@ -2,6 +2,13 @@
 	var ds = {};
 	ds.$userservice = function($q, $http) {
 		return {
+			authUser: function(auth_pair) {
+				var defer = $q.defer();
+				$http.post("/rest/user/auth", auth_pair).then(function(resp) {
+					defer.resolve(resp);
+				});
+				return defer.promise;
+			},
 			createUser: function(user) {
 				var defer = $q.defer();
 				$http.post("/rest/user", user).then(function(resp) {
