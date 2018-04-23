@@ -1,16 +1,26 @@
 var app = angular.module("mainApp", ["ngRoute", "LocalStorageModule"]);
 
-app.controller("mainCtrl", ["$scope", "$UserService", function($scope, $us) {
+app.controller("mainCtrl", ["$scope", "$authService", function($scope, $as) {
+	$as.getAuth(function(is_auth) {
+		if(is_auth) {
+			$scope.account_location = 'myAccount';
+		} else {
+			$scope.account_location ='loginAccount';
+		}
+	});
 	//$us.setAuthPair({ username: "Cromwell", password: "zztsky123" });
 	//console.log(this);
 }]);
 
 app.factory("$us", ["$q", "$http", ds.$userservice]);
 app.factory("$ts", ["$q", "$http", ds.$tripservice]);
-app.factory("$UserService", ["localStorageService", "$us", function($localStorage, $us) {
+app.factory("$authService", ["localStorageService", "$us", function($localStorage, $us) {
 	return {
-		getUserName: function() {
-			return $localStorage.get("username");
+		is_auth: undefined,
+		logOut: function() {
+			$localStorage.delete("username");
+			$localStorage.delete("password");
+			this.is_auth = undefined;
 		},
 		setAuthPair: function(auth_pair) {
 			var username = auth_pair.username,
@@ -20,9 +30,13 @@ app.factory("$UserService", ["localStorageService", "$us", function($localStorag
 			$localStorage.set("password", password);
 		},
 		getAuth: function(callback) {
-			var is_auth = false,
-				username = $localStorage.get("username"),
-				password = $localStorage.get("password");
+			if(this.is_auth != undefined) {
+				callback(is_auth);
+			}
+			
+			var is_auth = false;
+			var	username = $localStorage.get("username");
+			var	password = $localStorage.get("password");
 
 			if(username && password) {
 				var auth_pair = {
@@ -30,14 +44,25 @@ app.factory("$UserService", ["localStorageService", "$us", function($localStorag
 					password: password
 				}
 				$us.authUser(auth_pair).then(function(res) {
-					callback(res.data);
+					is_auth = $.parseJSON(res.data);
+					this.is_auth = is_auth;
+					callback(is_auth);
 				});
 			} else {
-				callback("false");
+				this.is_auth = is_auth;
+				callback(is_auth);
 			}
 		}
 	};
 }]);
+
+app.directive('focusOn', function() {
+   return function(scope, elem, attr) {
+      scope.$on(attr.focusOn, function(e) {
+          elem[0].focus();
+      });
+   };
+});
 
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider.when("/home", {
@@ -46,19 +71,25 @@ app.config(["$routeProvider", function($routeProvider) {
 	}).when("/allTrips", {
 		templateUrl: "template/allTrips.html",
 		controller: "tripCtrl"
-	}).when("/account", {
-		templateUrl: "template/account.html",
-		controller: "accountCtrl"
+	}).when("/myAccount", {
+		templateUrl: "template/MyAccount.html",
+		controller: "myAccountCtrl"
+	}).when("/createAccount", {
+		templateUrl: "template/CreateAccount.html",
+		controller: "createAccountCtrl"
+	}).when("/loginAccount", {
+		templateUrl: "template/LoginAccount.html",
+		controller: "loginAccountCtrl"
 	}).otherwise({
 		redirectTo: "home"
 	})
 }]);
 
-app.controller("homeCtrl", ["$scope", "$ts", "$UserService", function($scope, $ts, $us) {
+app.controller("homeCtrl", ["$scope", "$ts", "$authService", function($scope, $ts, $as) {
 	$scope.c = 0;
-	$us.getAuth(function(is_auth) {
-		$scope.is_auth = $.parseJSON(is_auth);
-		if(is_auth == "true") {
+	$as.getAuth(function(is_auth) {
+		$scope.is_auth = is_auth;
+		if(is_auth) {
 			$scope.comment_placeholder = 'Enter you message..';
 		} else {
 			$scope.comment_placeholder = 'Login to comment..';
@@ -90,11 +121,35 @@ app.controller("tripCtrl", ["$scope", "$ts", function($scope, $ts) {
 	});
 }]);
 
-app.controller("accountCtrl", ["$scope", "$UserService", function($scope, $us) {
-	$us.getAuth(function(is_auth) {
-		$scope.is_auth = is_auth;
-	})
+app.controller("myAccountCtrl", ["$scope", function($scope) {
+
 }]);
+
+app.controller("createAccountCtrl", ["$scope", function($scope) {
+
+}]);
+
+app.controller("loginAccountCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {
+	$scope.auth_pair = {};
+
+	$scope.removeAlert = function() {
+		console.log("lalal");
+		$scope.alert = "";
+	};
+
+	$scope.doSubmit = function() {
+		$as.setAuthPair($scope.auth_pair);
+		$as.getAuth(function(is_auth) {
+			if(is_auth) {
+				$location.path("myAccount");
+			} else {
+				$scope.auth_pair = {};
+				$scope.alert = "Wrong auth pair";
+			}
+		});
+	};
+}]);
+
 
 
 
