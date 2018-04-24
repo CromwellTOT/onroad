@@ -1,96 +1,28 @@
-<div>
-	<h2>Search Trip</h2>
-	<form class="form-inline">
-		<div class="form-group">
-			<input type="text" class="form-control" id="search_departure" placeholder="Departure" ng-model="trip.search_departure" >
-		</div>
-		<div class="form-group">
-			<input type="text" class="form-control" id="search_destination" placeholder="Destination" ng-model="trip.search_destination" >
-		</div>
-		<div class="form-group">
-			<input type="date" class="form-control" id="start_date" placeholder="Start Date" ng-model="trip.search_start_date" >
-		</div>
-		<div class="form-group">
-			<input type="date" class="form-control" id="end_date" placeholder="Complete Date" ng-model="trip.search_end_date" >
-		</div>
-		<div>
-			<button class="btn btn-primary" ng-click="doSubmit()">Submit</button>
-			<button class="btn btn-primary" ng-click="doClear()">Clear</button>
-		</div>
-	</form>
-	<div id="trips" ng-show="tripList.length">
-		<hr>
-		<div class="row">
-			<div class="col-md-1">
-				<button class="btn btn-default" ng-click="goPrevious()" ng-disabled="c==0">Previous</button>
-			</div>
-			<div class="col-md-10"  style="border-left: gray solid 1px; border-right: gray solid 1px;">
-				<div class="row">
-					<div class="col-md-9">
-						<div class="row">
-							<div class="col-md-3 text-center">
-								{{currentTrip.title}}
-							</div>
-							<div class="col-md-offset-1 col-md-1">
-								{{currentTrip.departure}}
-							</div>
-							<div class="col-md-1 text-center" >
-								->
-							</div>
-							<div class="col-md-1">
-								{{currentTrip.destination}}
-							</div>
-							<div class="col-md-offset-1 col-md-1">
-								{{currentTrip.start_date}}
-							</div>
-							<div class="col-md-1 text-center">
-								->
-							</div>
-							<div class="col-md-1">
-								{{currentTrip.end_date}}
-							</div>
-						</div>
-						<br>
-						<div>
-							{{currentTrip.content}}
-						</div>
+<div class="row">
+	<div class="col-md-3"></div>
+	<div class="col-md-6">
+		<h1 class="text-gray-dark">Get Your Travel Plans</h1>
+			<form class="" method="post" action="https://formspree.io/">
+				<div class="form-group"> 
+					<label>Departure</label>
+					<input type="email" name="email" class="form-control" placeholder="Enter Your Departure City"> 
+				</div>
+				<div class="form-group"> 
+					<label>Destination</label>
+					<input type="password" name="password" class="form-control" placeholder="Enter Your Destination"> 
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Trip Date</label>
+					<div class="form-group w-25">
+						<label for="exampleInputEmail1">From:</label>
+						<input type="date"> 
+						<label for="exampleInputEmail1">To: </label>
+						<input type="date"> 
 					</div>
-					<div class="col-md-3 text-center">
-						<button class="btn btn-primary" ng-click="participate()">Participate</button>
-					</div>
+					<button type="submit" class="btn btn-primary">Let's Go!</button>
 				</div>
-				<hr>
-				<div class="row">
-					<textarea id="comment" class="form-control" rows="3" placeholder="{{comment_placeholder}}"></textarea>
-					<button id="submit_comment" class="btn btn-default" ng-disabled="!is_auth">Leave Message</button>
-				</div>
-				<hr>
-				<div class="row" ng-repeat="(index, comment) in currentTrip.comments">
-					<div class="col-sm-1">
-						<div class="thumbnail">
-							<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-						</div><!-- /thumbnail -->
-					</div><!-- /col-sm-1 -->
-
-					<div class="col-sm-5">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<strong>{{comment.username}}</strong> <span class="text-muted">{{comment.comment_date}}</span>
-							</div>
-							<div class="panel-body">
-								{{comment.comment}}
-							</div><!-- /panel-body -->
-						</div><!-- /panel panel-default -->
-					</div><!-- /col-sm-5 -->
-				</div>
-			</div>
-			<div class="col-md-1">
-				<button class="btn btn-default" ng-click="goNext()" ng-disabled="c==tripList.length-1">Next</button>		
-			</div>
+			</form>
 		</div>
-	</div>
-	<div id="blog">
-		
 	</div>
 </div>
 

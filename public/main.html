@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title>OnRoad</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  	<link rel="stylesheet" href="css/theme.css" type="text/css">
 	<script src="js/angular.min.js"></script>
 	<script src="js/angular-route.min.js"></script>
 	<script src="js/angular-local-storage.min.js"></script>
@@ -10,13 +11,14 @@
 	<script src="js/jquery-3.1.0.min.js"></script>
 	<script src="js/dataservice.js"></script>
 	<script src="js/myapp.js"></script>
+	<script src="js/service.js"></script>
 	<script>
 		$(document).ready(function() {
 			$(".toggle").on("click", function() {
 				if($(this).hasClass("active")){
 					return;
 				} else {
-					$("ul.nav li").removeClass("active");
+					$("ul.navbar-nav li").removeClass("active");
 					$(this).addClass("active");
 				}
 			});
@@ -54,15 +56,37 @@
 	</style>
 </head>
 <body ng-app="mainApp">
-<div class="container" ng-controller="mainCtrl">
-	<h1>MEAN Stack Application</h1>
-	<hr>
-	<ul class="nav nav-tabs">
-  		<li class="toggle active"><a href="#home">Home</a></li>
-  		<li class="toggle"><a href="#allTrips">Trips</a></li>
-  		<li class="toggle" style="float: right;"><a href="#{{account_location}}">Account</a></li>
-	</ul>
-	<div ng-view></div>
-</div>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+    	<a class="navbar-brand" href="#home"><i class="fa d-inline fa-lg fa-cloud"></i><b class="text-center text-capitalize">&nbsp;OnRoad</b></a>
+	    <div class="container">
+	      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+	      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	        <ul class="navbar-nav">
+	          <li class="nav-item active toggle">
+	            <a class="nav-link" href="#home">Home</a>
+	          </li>
+	          <li class="nav-item toggle">
+	            <a class="nav-link" href="#trips">Travel Plans</a>
+	          </li>
+	          <li class="nav-item toggle">
+	            <a class="nav-link" href="#blogs">Travel Blogs</a>
+	          </li>
+	          <li class="nav-item toggle">
+	            <a class="nav-link" href="#customerService">Contact Us</a>
+	          </li>
+	        </ul>
+	      </div>
+	    </div>
+	    <a class="btn navbar-btn ml-2 text-white btn-secondary" ng-click="switchAccountPage()"><i class="fa d-inline fa-lg fa-user-circle-o" style="margin-right: 8px;"></i>Account</a>
+  	</nav>
+  	<div class="text-white opaque-overlay cover py-5" style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/cover_restaurant.jpg&quot;);">
+    	<div class="container">
+			<div ng-view></div>
+    	</div>
+    </div>
 </body>
 </html>
+
+
+
+
