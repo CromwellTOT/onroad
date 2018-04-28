@@ -1,0 +1,22 @@
+<div class="row h-100">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <h1 class="text-gray-dark">OnRoad</h1>
+          <form>
+            <div class="form-group text-left">
+              <label>User Name</label>
+              <input type="text" ng-model="auth_pair.username" class="form-control" placeholder="Enter Your User Name" ng-focus="removeAlert()"> </div>
+            <div class="form-group text-left">
+              <label>Password</label>
+              <input type="password" ng-model="auth_pair.password" class="form-control" placeholder="Enter Your Password" ng-focus="removeAlert()"> 
+            </div>
+            <div class="form-group text-left" ng-show="is_alert">
+              <label style="color: red">{{alert}}</label>
+            </div>
+            <button type="submit" class="btn btn-primary" ng-click="doSubmit()">Log in</button>
+            <div class="form-group text-center">
+              <label>Don't have an account? <a href="#register" style="color: cyan">Sign Up</a></label>
+            </div>
+          </form>
+        </div>
+      </div>

@@ -1,0 +1,8 @@
+ec2-34-205-33-33.compute-1.amazonaws.com
+34.205.33.33
+
+Bitnami app username and password
+root
+wqYNye8QjPAJ
+
+ssh -i onroad.pem bitnami@ec2-34-205-33-33.compute-1.amazonaws.com

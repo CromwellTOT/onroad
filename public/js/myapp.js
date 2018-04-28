@@ -1,17 +1,30 @@
 var app = angular.module("mainApp", ["ngRoute", "LocalStorageModule"]);
 
 app.controller("mainCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {
-	$scope.switchAccountPage = function() {
-		$as.getAuth(function(is_auth) {
-			if(is_auth) {
-				$location.path('myAccount');
-			} else {
-				$location.path('loginAccount');
-			}
-		});
+	$scope.$watch('is_auth', function(newVal) {
+		$scope.authText = (newVal) ? "Log out" : "Log in";
+		$scope.toggle = newVal;
+	})
+	
+	$as.initAuthCheck(function(is_auth) {
+		$scope.is_auth = is_auth;
+	})
+	$scope.$on("OnAuthChange", function(evt, val) {
+		$scope.is_auth = val;
+		$scope.$broadcast("updateAuth", val);
+	});
+	$scope.logAccount = function() {
+		if($scope.is_auth) {
+			// log out
+			$as.logout();
+			$scope.is_auth = false;
+			$location.path("home");
+		} else {
+			// log in
+			$location.path("login");
+		}
 	}
 	//$us.setAuthPair({ username: "Cromwell", password: "zztsky123" });
-	//console.log(this);
 }]);
 
 app.config(["$routeProvider", function($routeProvider) {
@@ -19,32 +32,30 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "template/home.html",
 		controller: "homeCtrl"
 	}).when("/trips", {
-		templateUrl: "template/allTrips.html",
+		templateUrl: "template/Trips.html",
 		controller: "tripCtrl"
+	}).when("/blogs", {
+		templateUrl: "template/Blogs.html",
+		controller: "blogCtrl"
+	}).when("/contact", {
+		templateUrl: "template/Contact.html",
+		controller: "contactCtrl"
 	}).when("/myAccount", {
 		templateUrl: "template/MyAccount.html",
 		controller: "myAccountCtrl"
-	}).when("/createAccount", {
-		templateUrl: "template/CreateAccount.html",
-		controller: "createAccountCtrl"
-	}).when("/loginAccount", {
-		templateUrl: "template/LoginAccount.html",
-		controller: "loginAccountCtrl"
+	}).when("/login", {
+		templateUrl: "template/Login.html",
+		controller: "loginCtrl"
+	}).when("/register", {
+		templateUrl: "template/Register.html",
+		controller: "registerCtrl"
 	}).otherwise({
 		redirectTo: "home"
 	})
 }]);
 
 app.controller("homeCtrl", ["$scope", "$ts", "$authService", function($scope, $ts, $as) {
-	$scope.c = 0;
-	$as.getAuth(function(is_auth) {
-		$scope.is_auth = is_auth;
-		if(is_auth) {
-			$scope.comment_placeholder = 'Enter you message..';
-		} else {
-			$scope.comment_placeholder = 'Login to comment..';
-		}
-	});	
+	$scope.c = 0;	
 
 	$scope.doClear = function() {
 		$scope.trip = {};
@@ -71,31 +82,46 @@ app.controller("tripCtrl", ["$scope", "$ts", function($scope, $ts) {
 	});
 }]);
 
+app.controller("blogCtrl", ["$scope", function($scope) {
+
+}]);
+
+app.controller("contactCtrl", ["$scope", function($scope) {
+
+}]);
+
 app.controller("myAccountCtrl", ["$scope", function($scope) {
+	$scope.logout = function() {
+		var is_auth = false;
+		$scope.$emit("onAuth", is_auth);
+	}
+}]);
+
+app.controller("registerCtrl", ["$scope", function($scope) {
 
 }]);
 
-app.controller("createAccountCtrl", ["$scope", function($scope) {
-
-}]);
-
-app.controller("loginAccountCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {
+app.controller("loginCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {
 	$scope.auth_pair = {};
 
 	$scope.removeAlert = function() {
-		console.log("lalal");
-		$scope.alert = "";
+		$scope.is_alert = undefined;
 	};
 
 	$scope.doSubmit = function() {
 		$as.setAuthPair($scope.auth_pair);
-		$as.getAuth(function(is_auth) {
+		$as.login(function(is_auth) {
 			if(is_auth) {
+				$scope.is_auth = is_auth;
 				$location.path("myAccount");
 			} else {
 				$scope.auth_pair = {};
 				$scope.alert = "Wrong auth pair";
+				$scope.is_alert = true;
 			}
+		});
+		$scope.$watch("is_auth", function(newVal) {
+			$scope.$emit("OnAuthChange", newVal);
 		});
 	};
 }]);
