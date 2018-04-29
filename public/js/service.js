@@ -1,5 +1,6 @@
 app.factory("$us", ["$q", "$http", ds.$userservice]);
 app.factory("$ts", ["$q", "$http", ds.$tripservice]);
+app.factory("$bs", ["$q", "$http", ds.$blogservice]);
 app.factory("$authService", ["localStorageService", "$us", "$rootScope", function($localStorage, $us, $rootScope) {
 	return {
 		is_auth: false,

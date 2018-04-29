@@ -1,6 +1,7 @@
 var app = angular.module("mainApp", ["ngRoute", "LocalStorageModule"]);
 
 app.controller("mainCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {
+	$location.path("home");
 	$scope.$watch('is_auth', function(newVal) {
 		$scope.authText = (newVal) ? "Log out" : "Log in";
 		$scope.toggle = newVal;
@@ -82,8 +83,31 @@ app.controller("tripCtrl", ["$scope", "$ts", function($scope, $ts) {
 	});
 }]);
 
-app.controller("blogCtrl", ["$scope", function($scope) {
-
+app.controller("blogCtrl", ["$scope", "$bs", function($scope, $blogService) {
+	$scope.blog = {};
+	$scope.c = 0;
+	$blogService.getAllBlogs().then(function(blogs) {
+		$scope.blogList = blogs;
+		$scope.currentBlog = blogs[$scope.c];
+	});
+	$scope.doSubmit = function() {
+		if($scope.blog.title && $scope.blog.content && $scope.blog.imageUrl) {
+			$blogService.createBlog($scope.blog).then(function(res) {
+				console.log(res);
+				alert("Success: New blog created!");
+			});
+		} else {
+			alert("Error: Some required fields are empty!");
+		}		
+	};
+	$scope.goPrevious = function() {
+		$scope.c--;
+		$scope.currentBlog = $scope.blogList[$scope.c];
+	};
+	$scope.goNext = function() {
+		$scope.c++;
+		$scope.currentBlog = $scope.blogList[$scope.c];
+	};
 }]);
 
 app.controller("contactCtrl", ["$scope", function($scope) {
@@ -97,8 +121,24 @@ app.controller("myAccountCtrl", ["$scope", function($scope) {
 	}
 }]);
 
-app.controller("registerCtrl", ["$scope", function($scope) {
-
+app.controller("registerCtrl", ["$scope", "$us", function($scope, $userService) {
+	$scope.removeAlert = function() {
+		$scope.is_alert = undefined;
+	};
+	$scope.user = {};
+	$scope.register = function() {
+		var info = $scope.user;
+		if(info.password.length > 6 && info.number.length == 10) {
+			$userService.createUser($scope.user).then(function() {
+				//console.log('success');
+				$scope.alert = "Register Success";
+				$scope.is_alert = true;
+			})
+		} else {
+			$scope.alert = "Invalid input";
+			$scope.is_alert = true;
+		}
+	}
 }]);
 
 app.controller("loginCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {

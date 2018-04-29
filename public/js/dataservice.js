@@ -78,6 +78,31 @@
 			}
 		}
 	};
+	ds.$blogservice = function($q, $http) {
+		return {
+			getAllBlogs: function() {
+				var defer = $q.defer();
+				$http.get("/rest/blog").then(function(resp) {
+					defer.resolve(resp.data);
+				});
+				return defer.promise;
+			},
+			createBlog: function(blog) {
+				var defer = $q.defer();
+				$http.post("/rest/blog", blog).then(function(resp) {
+					defer.resolve(resp);
+				});
+				return defer.promise;
+			},
+			updateBlog: function(blog) {
+				var defer = $q.defer();
+				$http.put("/rest/blog", blog).then(function(resp) {
+					defer.resolve(resp);
+				});
+				return defer.promise;
+			}
+		}
+	};
 	ds.noConflict = function() {
 		return ds;
 	}

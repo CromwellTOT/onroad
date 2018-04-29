@@ -5,26 +5,35 @@
             <div class="bg-light col-md-4">
               <div class="card-body text-dark text-left">
                 <h1 class="mb-4 text-dark">Sign Up to OnRoad</h1>
-                <form action="https://formspree.io/YOUREMAILHERE">
+                <form>
                   <div class="form-group">
                     <label>Username (required)</label>
-                    <input type="email" class="form-control" placeholder="Enter your username"> </div>
+                    <input type="text" class="form-control" placeholder="Enter your username" ng-model="user.username" ng-focus="removeAlert()" required> 
+                  </div>
                   <div class="form-group">
-                    <label>Firs Name (required)</label>
-                    <input type="firstname" class="form-control" placeholder="Enter your first name"> </div>
+                    <label>First Name (required)</label>
+                    <input type="firstname" class="form-control" placeholder="Enter your first name" ng-model="user.firstname" required> 
+                  </div>
                   <div class="form-group">
                     <label>Last Name (required)</label>
-                    <input type="lastname" class="form-control" placeholder="Enter your last name"> </div>
+                    <input type="lastname" class="form-control" placeholder="Enter your last name" ng-model="user.lastname" required> 
+                  </div>
                   <div class="form-group">
                     <label>Phone Number(required)</label>
-                    <input type="integer" class="form-control" placeholder="Number only"> </div>
+                    <input type="integer" class="form-control" placeholder="Number only" ng-model="user.number" required> 
+                  </div>
                   <div class="form-group">
                     <label>Email address(required)</label>
-                    <input type="email" class="form-control" placeholder="Email"> </div>
+                    <input type="email" class="form-control" placeholder="Email" ng-model="user.email" required> 
+                  </div>
                   <div class="form-group">
-                    <label>Password(required)</label>
-                    <input type="password" class="form-control" placeholder="At least six characters"> </div>
-                  <button type="submit" class="btn btn-secondary">Sign Up</button>
+                    <label>Password(required)</label> 
+                    <input type="password" class="form-control" placeholder="At least six characters" ng-model="user.password" required> 
+                  </div>
+                  <div class="form-group text-left" ng-show="is_alert">
+                    <label style="color: red">{{alert}}</label>
+                  </div>
+                  <button class="btn btn-secondary" ng-click="register()">Sign Up</button>
                   <div class="form-group">
                     <label>Already have an account? <a href="#login" style="color: orange">Log in</a></label>
                   </div>
