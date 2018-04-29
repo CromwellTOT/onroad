@@ -2,9 +2,10 @@ var express = require("express");
 var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
 var td = require("./tripdao");
+//var url = "mongodb://localhost:27017";
 var url = "mongodb://root:wqYNye8QjPAJ@localhost:27017";
 
-dbName = "mydb";
+var dbName = "mydb";
 td.collectionName = 'trips'
 // init start trip ID for creating
 var tripId = "1";
@@ -13,10 +14,9 @@ MongoClient.connect(url, function(err, client) {
 	td.findAll(db, result => {
 		result.forEach(function(item) {
 			if(item.id > tripId) {
-				tripId = item.id;
+				tripId = item.id + 1 + "";
 			}
 		});
-		tripId++;
 	});
 });
 // rest service

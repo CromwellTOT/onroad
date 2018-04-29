@@ -4,10 +4,15 @@ app.factory("$bs", ["$q", "$http", ds.$blogservice]);
 app.factory("$authService", ["localStorageService", "$us", "$rootScope", function($localStorage, $us, $rootScope) {
 	return {
 		is_auth: false,
-		logOut: function() {
-			$localStorage.delete("username");
-			$localStorage.delete("password");
-			this.is_auth = undefined;
+		getUserName: function() {
+			if(this.is_auth) {
+				return $localStorage.get("username");
+			} else {
+				return ""
+			}
+		},
+		getAuth: function() {
+			return this.is_auth;
 		},
 		setAuthPair: function(auth_pair) {
 			var username = auth_pair.username,

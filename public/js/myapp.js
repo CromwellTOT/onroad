@@ -38,12 +38,18 @@ app.config(["$routeProvider", function($routeProvider) {
 	}).when("/blogs", {
 		templateUrl: "template/Blogs.html",
 		controller: "blogCtrl"
+	}).when("/blog/:id", {
+		templateUrl: "template/Blog.html",
+		controller: "oneBlogCtrl"
 	}).when("/contact", {
 		templateUrl: "template/Contact.html",
 		controller: "contactCtrl"
 	}).when("/myAccount", {
 		templateUrl: "template/MyAccount.html",
 		controller: "myAccountCtrl"
+	}).when("/user/:username", {
+		templateUrl: "template/Account.html",
+		controller: "oneAccountCtrl"
 	}).when("/login", {
 		templateUrl: "template/Login.html",
 		controller: "loginCtrl"
@@ -83,7 +89,7 @@ app.controller("tripCtrl", ["$scope", "$ts", function($scope, $ts) {
 	});
 }]);
 
-app.controller("blogCtrl", ["$scope", "$bs", function($scope, $blogService) {
+app.controller("blogCtrl", ["$scope", "$bs", "$location", "$authService", function($scope, $blogService, $location, $as) {
 	$scope.blog = {};
 	$scope.c = 0;
 	$blogService.getAllBlogs().then(function(blogs) {
@@ -91,13 +97,19 @@ app.controller("blogCtrl", ["$scope", "$bs", function($scope, $blogService) {
 		$scope.currentBlog = blogs[$scope.c];
 	});
 	$scope.doSubmit = function() {
-		if($scope.blog.title && $scope.blog.content && $scope.blog.imageUrl) {
-			$blogService.createBlog($scope.blog).then(function(res) {
-				console.log(res);
-				alert("Success: New blog created!");
-			});
+		var username = $as.getUserName();
+		if(username) {
+			if($scope.blog.title && $scope.blog.content && $scope.blog.imageUrl) {
+				$scope.blog.poster = username;
+				$blogService.createBlog($scope.blog).then(function(res) {
+					//console.log(res);
+					alert("Success: New blog created!");
+				});
+			} else {
+				alert("Error: Some required fields are empty!");
+			}
 		} else {
-			alert("Error: Some required fields are empty!");
+			alert("Login REQUIRED to post a blog");
 		}		
 	};
 	$scope.goPrevious = function() {
@@ -108,6 +120,20 @@ app.controller("blogCtrl", ["$scope", "$bs", function($scope, $blogService) {
 		$scope.c++;
 		$scope.currentBlog = $scope.blogList[$scope.c];
 	};
+	$scope.goBlog = function() {
+		$location.path("blog/" + $scope.blogList[$scope.c].id);
+	}
+}]);
+
+app.controller("oneBlogCtrl", ["$scope", "$bs", "$routeParams", "$location", function($scope, $blogService, $routeParams, $location) {
+	var id = $routeParams.id;
+	$blogService.getBlog(id).then(function(blog) {
+		$scope.blog = blog;
+	});
+	$scope.goUser = function() {
+		var username = $scope.blog.poster;
+		$location.path("user/" + username);
+	}
 }]);
 
 app.controller("contactCtrl", ["$scope", function($scope) {
@@ -119,6 +145,14 @@ app.controller("myAccountCtrl", ["$scope", function($scope) {
 		var is_auth = false;
 		$scope.$emit("onAuth", is_auth);
 	}
+}]);
+
+app.controller("oneAccountCtrl", ["$scope", "$us", "$routeParams", function($scope, $userService, $routeParams) {
+	var username = $routeParams.username;
+	$userService.getOneUser(username).then(function(account) {
+		$scope.account = account;
+		console.log(account);
+	})
 }]);
 
 app.controller("registerCtrl", ["$scope", "$us", function($scope, $userService) {

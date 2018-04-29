@@ -94,6 +94,13 @@
 				});
 				return defer.promise;
 			},
+			getBlog: function(id) {
+				var defer = $q.defer();
+				$http.get("/rest/blog/" + id).then(function(resp) {
+					defer.resolve(resp.data);
+				});
+				return defer.promise; 
+			},
 			updateBlog: function(blog) {
 				var defer = $q.defer();
 				$http.put("/rest/blog", blog).then(function(resp) {

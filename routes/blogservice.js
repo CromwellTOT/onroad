@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
 var bd = require("./blogdao");
+//var url = "mongodb://localhost:27017";
 var url = "mongodb://root:wqYNye8QjPAJ@localhost:27017";
 
 var dbName = "mydb";
@@ -13,10 +14,9 @@ MongoClient.connect(url, function(err, client) {
 	bd.findAll(db, result => {
 		result.forEach(function(item) {
 			if(item.id > blogId) {
-				blogId = item.id;
+				blogId = item.id + 1 + "";
 			}
 		});
-		blogId++;
 	});
 });
 // rest service
