@@ -1,4 +1,4 @@
-ec2-34-205-33-33.compute-1.amazonaws.com
+ec2-34-205-33-33.compute-1.amazonaws.com:4444
 34.205.33.33
 
 Bitnami app username and password
@@ -6,3 +6,7 @@ root
 wqYNye8QjPAJ
 
 ssh -i onroad.pem bitnami@ec2-34-205-33-33.compute-1.amazonaws.com
+
+/opt/bitnami/mongodb/log/mongodb.log
+
+sudo mongo admin --username root --password wqYNye8QjPAJ

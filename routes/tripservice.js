@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
 var td = require("./tripdao");
-var url = "mongodb://localhost:27017";
+var url = "mongodb://root:wqYNye8QjPAJ@localhost:27017";
 
 dbName = "mydb";
 td.collectionName = 'trips'

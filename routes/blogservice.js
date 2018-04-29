@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var MongoClient = require("mongodb").MongoClient;
 var bd = require("./blogdao");
-var url = "mongodb://localhost:27017";
+var url = "mongodb://root:wqYNye8QjPAJ@localhost:27017";
 
 var dbName = "mydb";
 bd.collectionName = 'blogs'
