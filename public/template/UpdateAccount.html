@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="bg-light col-md-4">
+    <div class="card-body text-dark text-left">
+      <h1 class="mb-4 text-dark">Update Profile</h1>
+      <form>
+        <div class="form-group">
+          <label>Username (required)</label>
+          <input type="text" class="form-control" placeholder="jiahuiwang0928" ng-model="user.username" ng-focus="removeAlert()" required>
+        </div>
+        <div class="form-group">
+          <label>First Name (required)</label>
+          <input type="firstname" class="form-control" placeholder="Jiahui" ng-model="user.firstname" required> 
+        </div>
+        <div class="form-group">
+          <label>Last Name (required)</label>
+          <input type="lastname" class="form-control" placeholder="Wang" ng-model="user.lastname" required> 
+        </div>
+        <div class="form-group">
+          <label>Phone Number(required)</label>
+          <input type="integer" class="form-control" placeholder="571-594-0009" ng-model="user.number" required> 
+        </div>
+        <div class="form-group">
+          <label>Email address(required)</label>
+          <input type="email" class="form-control" placeholder="jiahuiwang0928@gwu.edu" ng-model="user.email" required> 
+        </div>
+        <div class="form-group">
+          <label>Password(required)</label>
+          <input type="password" class="form-control" placeholder="***********" ng-model="user.password" required> 
+        </div>
+        <div class="form-group text-left" ng-show="is_alert">
+          <label style="color: red">{{alert}}</label>
+        </div>
+        <button ng-click="update()" class="btn btn-secondary">Save Profile</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <p class="">
+      <b>
+        <a href="#myAccount" style="color: red">- Go Back to My Account -</a>
+      </b>
+    </p>
+  </div>
+</div>

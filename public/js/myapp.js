@@ -3,6 +3,7 @@ var app = angular.module("mainApp", ["ngRoute", "LocalStorageModule"]);
 app.controller("mainCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {
 	$location.path("home");
 	$scope.$watch('is_auth', function(newVal) {
+		console.log('is_auth watcher: ' + newVal);
 		$scope.authText = (newVal) ? "Log out" : "Log in";
 		$scope.toggle = newVal;
 	})
@@ -12,6 +13,8 @@ app.controller("mainCtrl", ["$scope", "$authService", "$location", function($sco
 	})
 	$scope.$on("OnAuthChange", function(evt, val) {
 		$scope.is_auth = val;
+		$scope.authText = (val) ? "Log out" : "Log in";
+		$scope.toggle = val;
 		$scope.$broadcast("updateAuth", val);
 	});
 	$scope.logAccount = function() {
@@ -47,6 +50,9 @@ app.config(["$routeProvider", function($routeProvider) {
 	}).when("/myAccount", {
 		templateUrl: "template/MyAccount.html",
 		controller: "myAccountCtrl"
+	}).when("/updateAccount", {
+		templateUrl: "template/UpdateAccount.html",
+		controller: "updateAccountCtrl"
 	}).when("/user/:username", {
 		templateUrl: "template/Account.html",
 		controller: "oneAccountCtrl"
@@ -140,10 +146,39 @@ app.controller("contactCtrl", ["$scope", function($scope) {
 
 }]);
 
-app.controller("myAccountCtrl", ["$scope", function($scope) {
-	$scope.logout = function() {
-		var is_auth = false;
-		$scope.$emit("onAuth", is_auth);
+app.controller("myAccountCtrl", ["$scope", "$us", "$authService", "$location", function($scope, $userService, $authService, $location) {
+	$scope.deleteAccount = function() {
+		var username = $authService.getUserName();
+		if(username) {
+			$userService.deleteByName(username).then(function() {
+				$authService.logout();
+				$scope.$emit("OnAuthChange", false);
+				$location.path("home");
+			});
+		}
+	}
+}]);
+
+app.controller("updateAccountCtrl", ["$scope", "$us", "$authService", function($scope, $userService, $authService) {
+	$scope.removeAlert = function() {
+		$scope.is_alert = undefined;
+	};
+	var username = $authService.getUserName();
+	$userService.getOneUser(username).then(function(user) {
+		$scope.user = user;
+	});
+	$scope.update = function() {
+		var info = $scope.user;
+		if(info.password.length > 6 && info.number.length == 10) {
+			$userService.updateUser($scope.user).then(function() {
+				//console.log('success');
+				$scope.alert = "Update Success";
+				$scope.is_alert = true;
+			})
+		} else {
+			$scope.alert = "Invalid input";
+			$scope.is_alert = true;
+		}
 	}
 }]);
 

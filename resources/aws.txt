@@ -9,4 +9,10 @@ ssh -i onroad.pem bitnami@ec2-34-205-33-33.compute-1.amazonaws.com
 
 /opt/bitnami/mongodb/log/mongodb.log
 
+
+mongo shell entry:
+
 sudo mongo admin --username root --password wqYNye8QjPAJ
+
+use mydb
+db.blogs.deleteOne( { "_id" : ObjectId("5ae5f6654b3ace4e4e54d2ed") } );
