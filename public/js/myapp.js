@@ -147,6 +147,10 @@ app.controller("blogCtrl", ["$scope", "$bs", "$location", "$authService", functi
 	$scope.goBlog = function() {
 		$location.path("blog/" + $scope.blogList[$scope.c].id);
 	}
+	$scope.goUser = function() {
+		var username = $scope.blogList[$scope.c].poster;
+		$location.path("user/" + username);
+	}
 }]);
 
 app.controller("oneBlogCtrl", ["$scope", "$bs", "$routeParams", "$location", function($scope, $blogService, $routeParams, $location) {
@@ -158,6 +162,20 @@ app.controller("oneBlogCtrl", ["$scope", "$bs", "$routeParams", "$location", fun
 		var username = $scope.blog.poster;
 		$location.path("user/" + username);
 	}
+}]);
+
+app.controller("manageBlogCtrl", ["$scope", "$bs", "$authService" function($scope, $blogService, $as) {
+	$scope.username = $as.getUserName();
+	$scope.myBlogList = [];
+	$blogService.getAllBlogs().then(function(blogs) {
+		var list = [];
+		for(blog in blogs) {
+			if(blog.poster = $scope.username) {
+				list.push(blog);
+			}
+		}
+		$scope.myBlogList = list;
+	})
 }]);
 
 app.controller("contactCtrl", ["$scope", function($scope) {
