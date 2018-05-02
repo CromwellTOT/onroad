@@ -30,7 +30,7 @@
         <img class="img-fluid rounded mx-auto d-block" style="width: 100%;" src="{{currentBlog.imageUrl}}">
         <h3 class="my-3">{{currentBlog.title}}</h3>
         <p class="text-left">{{currentBlog.content}}</p>
-        <p class="text-right">-- Posted By <b class="btn-link" ng-click="goUser()">{{currentBlog.poster}}</p>
+        <p class="text-right">-- Posted By <b><a class="btn-link" ng-click="goUser()">{{currentBlog.poster}}</a></b></p>
       </div>
       <div class="col-md-1">
         <button class="btn btn-primary" ng-click="goNext()" ng-disabled="c==blogList.length-1">>></button>

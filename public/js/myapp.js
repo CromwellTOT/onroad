@@ -144,9 +144,6 @@ app.controller("blogCtrl", ["$scope", "$bs", "$location", "$authService", functi
 		$scope.c++;
 		$scope.currentBlog = $scope.blogList[$scope.c];
 	};
-	$scope.goBlog = function() {
-		$location.path("blog/" + $scope.blogList[$scope.c].id);
-	}
 	$scope.goUser = function() {
 		var username = $scope.blogList[$scope.c].poster;
 		$location.path("user/" + username);
