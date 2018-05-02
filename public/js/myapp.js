@@ -178,6 +178,12 @@ app.controller("manageBlogCtrl", ["$scope", "$bs", "$authService", function($sco
 		}
 		$scope.myBlogList = list;
 	})
+	$scope.deleteBlog = function(blog) {
+		//console.log(blogId);
+		$blogService.deleteBlogById(blog.id).then(function() {
+			alert("Success: " + blog.title + " deleted!");
+		});
+	};
 }]);
 
 app.controller("contactCtrl", ["$scope", function($scope) {
@@ -228,7 +234,7 @@ app.controller("oneAccountCtrl", ["$scope", "$us", "$routeParams", function($sco
 	})
 }]);
 
-app.controller("registerCtrl", ["$scope", "$us", function($scope, $userService) {
+app.controller("registerCtrl", ["$scope", "$us", "$location", "$authService", function($scope, $userService, $location, $as) {
 	$scope.removeAlert = function() {
 		$scope.is_alert = undefined;
 	};
@@ -238,14 +244,25 @@ app.controller("registerCtrl", ["$scope", "$us", function($scope, $userService) 
 		if(info.password.length > 6 && info.number.length == 10) {
 			$userService.createUser($scope.user).then(function() {
 				//console.log('success');
-				$scope.alert = "Register Success";
-				$scope.is_alert = true;
+				$as.setAuthPair({
+					username: $scope.user.username,
+					password: $scope.user.password
+				});
+				$as.login(function(is_auth) {
+					if(is_auth) {
+						$scope.is_auth = is_auth;
+						$location.path("home");
+					}
+				});
 			})
 		} else {
 			$scope.alert = "Invalid input";
 			$scope.is_alert = true;
 		}
 	}
+	$scope.$watch("is_auth", function(newVal) {
+		$scope.$emit("OnAuthChange", newVal);
+	});
 }]);
 
 app.controller("loginCtrl", ["$scope", "$authService", "$location", function($scope, $as, $location) {

@@ -107,6 +107,13 @@
 					defer.resolve(resp);
 				});
 				return defer.promise;
+			},
+			deleteBlogById: function(id) {
+				var defer = $q.defer();
+				$http.delete("/rest/blog/" + id).then(function(resp) {
+					defer.resolve(resp);
+				});
+				return defer.promise;
 			}
 		}
 	};
