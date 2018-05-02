@@ -4,7 +4,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <form style="opacity: 0.5;">
+    <form class="text-dark">
       <h2 class="text-left">Please type in blog title</h2>
       <div class="form-group text-left">
         <input type="text" class="form-control" placeholder="Blog Title" ng-model="blog.title"> 
@@ -17,12 +17,11 @@
         <label>Image URL</label>
         <input type="text" class="form-control" placeholder="Image URL" ng-model="blog.imageUrl"> 
       </div>
-      <a class="btn btn-primary" ng-click="doSubmit()">Post</a>
+      <a class="btn btn-primary text-white" ng-click="doSubmit()">Post</a>
     </form>
   </div>
 </div>
-<hr>
-<div class="py-1 bg-light">
+<div class="py-3 bg-light" style="margin-top: 20px;">
   <h1 ng-click="goBlog()" class="btn-link">Blog {{c}}</h1>
     <div class="row">
       <div class="col-md-1">

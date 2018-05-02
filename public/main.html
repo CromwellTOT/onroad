@@ -88,8 +88,6 @@
 /* ---------- GENERAL ---------- */
 
 body {
-	background: #e9e9e9;
-	color: #9a9a9a;
 	font: 100%/1.5em "Droid Sans", sans-serif;
 	margin: 0;
 }
@@ -297,8 +295,8 @@ p { margin: 0; }
 	      <i class="fa d-inline fa-lg fa-user-circle-o" style="margin-right: 5px;"></i>{{authText}}
 	  	</a>
   		</nav>
-  		<div class="text-center py-5" style="background-image: url('https://pingendo.github.io/templates/sections/assets/cover_event.jpg');background-repeat:no-repeat;background-position:center top;">
-    		<div class="container py-2">
+  		<div class="text-center py-5" style="background-image: url('https://pingendo.github.io/templates/sections/assets/cover_event.jpg');background-repeat:no-repeat;background-position:center top; background-size: cover;">
+    		<div class="container py-5">
 				<div ng-view></div>
     		</div>
   		</div>
@@ -307,11 +305,11 @@ p { margin: 0; }
 	      		<div class="row">
 	        		<div class="col-md-12 mt-3">
 	          			<p class="text-center text-white">© Copyright 2018 OnRoad - All rights reserved. </p>
-	          			<p class="text-right"><a class="chat-open">Online Chat</a></p>
 	        		</div>
 	      		</div>
 	    	</div>
   		</div>
+  		<button class="chat-open" style="cursor:pointer;position: fixed;bottom: 10px;right:10px;padding:4px;background-color: #F5B041;border-radius: 8px; width:250px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:black"draggable="true" >Online Chat</button>
   		<div id="live-chat">
 		
 		<header class="clearfix">
