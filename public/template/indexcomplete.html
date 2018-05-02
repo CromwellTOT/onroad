@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+<script src='lib/mapbox-gl-directions.js'></script>
+<script type="text/javascript" src="layer/layer/layer.js"></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.1/mapbox-gl-directions.css' type='text/css' />
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" type="text/css" href="css/mk.css">
+<link href="css/screen.css" media="screen" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://sa1.roadtrippers.com/assets/print/print-cca5ef88dd80e55184cdb3316d61c7541544aa9b1d396980fd71d258ee2abb69.css">
+<style type="text/css">
+	body,html
+	{
+		margin: 0; padding:0; height: 100%;
+	}
+	.mapboxgl-popup-content
+	{
+		padding: 0;
+	}
+	#discover-view
+	{
+		top: 10px;
+	}
+	.tripitem
+	{
+		width: 100%;
+		height: 100px;
+		padding: 10px;
+		border-bottom: solid 1px #ccc; 
+	}
+	.tripitem img
+	{
+		width: 80px;
+		height: 80px;
+		float: left;
+	}
+	.tripitem h4
+	{
+		padding-left: 105px;
+		line-height: 20px;
+		padding-top: 25px;
+	}
+	.tags
+	{
+		color: #54b6ff;
+	}
+	.tripxitem
+	{
+		background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;;
+	}
+	.delitem
+	{
+		background-color: #8B0000; /* dark red */
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;;
+	}
+</style>
+</head>
+<body>
+<div class="row">
+
+	<div id='map' style='width: 100%; height: 100%;'></div>
+
+
+	<div id="discover-view"><div id="discover">
+  		<div id="categories-view">
+  		<div id="categories">
+    	<div class="general-category-container toggle-container">
+      	<ul style="width: 533px;">
+          <li class="attractions tooltipstered" role="button" data-type="primary_category" data-id="1" data-cat="attractions">
+            <i class="icon-cat-attractions"></i>
+          </li>
+          <li class="vacation-rentals tooltipstered" role="button" data-type="primary_category" data-id="8" data-cat="vacation-rentals">
+            <i class="icon-cat-vacation-rentals"></i>
+          </li>
+
+      </ul>
+      <div class="more-button left tooltipstered" role="button">
+        <i class="icon-caret-left"></i>
+      </div>
+      <div class="more-button right tooltipstered" role="button">
+        <i class="icon-caret-right"></i>
+      </div>
+    </div>
+    <div class="fixed-toggles-container toggle-container">
+      <ul>
+        <li class="saved-places tooltipstered" role="button" data-type="saved_places">
+          <i class="icon-nav-save-place"></i>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+			<!-- trip section -->
+			  <div id="layers-view" class="show attractions" style="display: none;">
+			  <div id="layers">
+			    <ul id="layer-list">
+			        <li class="nature selected enabled" role="button" data-type="primary_category" data-id="5">
+			          <div class="arrow">
+			            <i class="icon-caret-right"></i>
+			          </div>
+			          <div class="label-view">
+			            <div class="label">Outdoors &amp; Recreation</div>
+			          </div>
+			          <div class="close" role="button">
+			            <i class="icon-nav-exit"></i>
+			          </div>
+			        </li>
+			    </ul>
+			    <div id="collapsed-overlay">
+			      <div class="collapsed-icon">
+			        <i class="icon-nav-categories"></i>
+			        <span>0 Layers</span>
+			      </div>
+			    </div>
+			  </div>
+			  <div id="layer-panel-view" class="" style="height: 808px;">
+			    <div id="layer-panel">
+				  <div class="react-adaptor-view">
+				    <div data-reactroot="" class="search-feature-layer-panel-content place-list-view">
+				      <div class="scroll-view">
+				        <div class="place-list">
+				          <div id="empty-place-list" class="empty-place-list" style="display: none;"><img src="https://sa1.roadtrippers.com/assets/place-layer-empty.png" width="100" height="41" alt="">
+				            <p>None of these places are in this map region.</p>
+				            <p><b>Try zooming out.</b></p>
+				          </div>
+				          <ul class="itemlist">
+				          	
+
+				          </ul>
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+
+			<!-- trip hotel -->
+				<div id="layers-view" style="display: none;" class="show vacation-rentals">
+			  <div id="layers">
+			    <ul id="layer-list">
+			        <li class="nature selected enabled" role="button" data-type="primary_category" data-id="5">
+			          <div class="arrow">
+			            <i class="icon-caret-right"></i>
+			          </div>
+			          <div class="label-view">
+			            <div class="label">hotels</div>
+			          </div>
+			          <div class="close" role="button">
+			            <i class="icon-nav-exit"></i>
+			          </div>
+			        </li>
+			    </ul>
+			    <div id="collapsed-overlay">
+			      <div class="collapsed-icon">
+			        <i class="icon-nav-categories"></i>
+			        <span>0 Layers</span>
+			      </div>
+			    </div>
+			  </div>
+			  <div id="layer-panel-view" class="" style="height: 808px;">
+			    <div id="layer-panel">
+				  <div class="react-adaptor-view">
+				    <div data-reactroot="" class="search-feature-layer-panel-content place-list-view">
+				      <div class="scroll-view">
+				        <div class="place-list">
+				          <div id="empty-place-list" class="empty-place-list" style="display: none;"><img src="https://sa1.roadtrippers.com/assets/place-layer-empty.png" width="100" height="41" alt="">
+				            <p>None of these places are in this map region.</p>
+				            <p><b>Try zooming out.</b></p>
+				          </div>
+				          <ul class="itemlist">
+				          	
+
+				          </ul>
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+			<!-- add trip section section -->
+
+			<div id="layers-view" style="display: none;" class="show default">
+			  <div id="layers">
+			    <ul id="layer-list">
+			        <li class="nature selected enabled" role="button" data-type="primary_category" data-id="5">
+			          <div class="arrow">
+			            <i class="icon-caret-right"></i>
+			          </div>
+			          <div class="label-view">
+			            <div class="label">trip plans</div>
+			          </div>
+			          <div class="close" role="button">
+			            <i class="icon-nav-exit"></i>
+			          </div>
+			        </li>
+			    </ul>
+			    <div id="collapsed-overlay">
+			      <div class="collapsed-icon">
+			        <i class="icon-nav-categories"></i>
+			        <span>0 Layers</span>
+			      </div>
+			    </div>
+			  </div>
+			  <div id="layer-panel-view" class="" style="height: 808px;">
+			    <div id="layer-panel">
+				  <div class="react-adaptor-view">
+				    <div data-reactroot="" class="search-feature-layer-panel-content place-list-view">
+				      <div class="scroll-view">
+				        <div class="place-list">
+				          <div id="empty-place-list" class="empty-place-list" style="display: none;"><img src="https://sa1.roadtrippers.com/assets/place-layer-empty.png" width="100" height="41" alt="">
+				            <p>None of these places are in this map region.</p>
+				            <p><b>Try zooming out.</b></p>
+				          </div>
+				          <ul class="itemlist">
+				          	
+				          </ul>
+				          	<button class="tripxitem" onclick="createRoute ();">Get Direction</button>
+				          	<button class="tripxitem" onclick="clearRout ();">Clear Route</button>
+				          	<button class="tripxitem" onclick="saveTrip ();">Save Trip</button>
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+					
+			  </div>
+			</div>
+
+			</div>
+			</div>
+		</div>
+
+</body>
+
+	<script>
+		
+		var aQueryTag = [
+					{
+						name:'hotel',
+						img:'img/hotel1.png' 
+					},
+					{
+						name:'landmark',
+						img:'img/landmark.png'
+					},
+					/*{
+						name:'restaurant',
+						img:'img/hotel.png'
+					},
+					{
+						name:'park',
+						img:'img/park.png'  
+					},
+					{
+						name:'retail',
+						img:'img/hotel.png'
+					}*/];
+		var aTrips = [];
+		var aPlaceData = [];
+		var Lindex;
+		/*L.mapbox.accessToken = 'pk.eyJ1Ijoiamlucm9uZ2NoZW5tYXBib3giLCJhIjoiY2pnaWJhdXd3MDJ4ejMybGRtdG8weDZ4ZCJ9.fv8fEBc-VINA9wcCOhSfcg';
+		var map = L.mapbox.map('map', 'mapbox.streets', {
+		    zoomControl: false,
+		    style: 'mapbox://styles/jinrongchenmapbox/cjgibrza7001i2tlkw19766ms',
+		    zoom:13,
+		    center:[-77.031672,38.908376]
+		});*/
+
+		mapboxgl.accessToken = 'pk.eyJ1Ijoiamlucm9uZ2NoZW5tYXBib3giLCJhIjoiY2pnaWJhdXd3MDJ4ejMybGRtdG8weDZ4ZCJ9.fv8fEBc-VINA9wcCOhSfcg';
+		var iCenterLng = '-77.0518';
+		var iCenterLat = '38.9007';
+		var map = new mapboxgl.Map({
+		    container: 'map',
+		    style: 'mapbox://styles/jinrongchenmapbox/cjgibrza7001i2tlkw19766ms',
+		    zoom:15,
+		    center:[iCenterLng,iCenterLat]
+		});
+
+		map.addControl(new MapboxDirections({
+		    accessToken: 'pk.eyJ1Ijoiamlucm9uZ2NoZW5tYXBib3giLCJhIjoiY2pnaWJhdXd3MDJ4ejMybGRtdG8weDZ4ZCJ9.fv8fEBc-VINA9wcCOhSfcg'
+		}), 'top-right');
+
+		
+
+		
+/*
+			for (var arr in aDatas)
+			{
+				// add markers to map
+				aDatas[arr].forEach(function(marker) {
+			    // create a DOM element for the marker
+			    var el = $.parseHTML('<div style="font-weight: 700; color:#233c4c;text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff; font-size: 21px;"><img src="'+marker.icon.src+'" alt="" width="25" height="25" /> '+marker.name+'</div>');
+
+			   
+
+			    //弹窗
+			    var markerHeight = 98, markerRadius = 0, linearOffset = 257;
+				var popupOffsets = {
+				 'top': [0, 0],
+				 'top-left': [0,0],
+				 'top-right': [0,0],
+				 'bottom': [0, 23],
+				 'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+				 'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+				 'left': [markerRadius, (markerHeight - markerRadius) * -1],
+				 'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+				 };
+
+				var popup = new mapboxgl.Popup({closeButton:false,offset:popupOffsets}).setHTML('<div class="map-popover-view poi-popover show-actions"><div class="map-popover"><a class="map-popover-content" href=""><div class="image" style="background-image:url('+marker.icon.src+')"></div><div class="info"><div class="name">'+marker.name+'</div><div class="stats"><span class="services">'+marker.tag+'</span></div></div></a><div class="map-popover-actions"><div class="save-place" role="button"><i class="icon-nav-save-place"></i></div><div class="add-to-trip" role="button"><i class="icon-master-trip"></i><!-- react-text: 14 -->&nbsp;<!-- /react-text --><span data-id="'+marker.id+'" data-name="'+marker.name+'" data-src="'+marker.icon.src+'" data-tag="'+marker.tag+'" data-lat="'+marker.lat+'" data-lng="'+marker.lng+'" class="default">Add to Trip</span><span class="active">Added to Trip</span><span class="remove">Remove</span></div></div></div></div>');
+
+			    // add marker to map
+			    var newMk = new mapboxgl.Marker(el[0])
+			        .setLngLat([marker.lng,marker.lat])
+			        .setPopup(popup)
+			        .addTo(map);
+				});
+
+			}*/
+			
+			function hideSection ()
+			{
+				$('.show').hide();
+			}
+
+
+		//分類選擇
+		$('.toggle-container li').on('click',function () {
+
+			$('.toggle-container li').removeClass('enabled');
+			$(this).addClass('enabled');
+
+		});
+		//酒店面板
+		$('.vacation-rentals').on('click',function () {
+				hideSection ();
+				if(!$('.show').eq(1).find('.itemlist li').length)
+				{
+					$('.show').eq(1).find('.empty-place-list').show();
+				}
+				else
+				{
+					$('.show').eq(1).find('.empty-place-list').hide();
+				}
+				$('.show').eq(1).show();
+		});
+		//trip面板
+		$('.attractions').on('click',function () {
+			hideSection ();
+			if(!$('.show').eq(0).find('.itemlist li').length)
+			{	
+				$('.show').eq(0).find('.empty-place-list').show();
+				console.log($(this).find('.empty-place-list').length);
+			}
+			else
+			{
+				$('.show').eq(1).find('.empty-place-list').hide();
+			}
+			$('.show').eq(0).show();
+		});
+		//添加到trip
+		$('body').delegate('.default','click',function () {
+			
+			hideSection ();
+
+			$('.show').eq(2).show();
+
+			var iId = $(this).attr('data-id');
+			var sName = $(this).attr('data-name');
+			var sIcon = $(this).attr('data-src');
+			var sTag = $(this).attr('data-tag');
+			var iLng = $(this).attr('data-lng');
+			var iLat = $(this).attr('data-lat');
+				if(aTrips.indexOf(iId)!=-1||!iId) return;
+				aTrips.push(iId);
+
+			
+			$('.show').eq(2).find('.itemlist').append('<li data-lng="'+iLng+'" data-lat="'+iLat+'" class="tripitem"><a href="javascript:;"><img src="'+sIcon+'"><h4>'+sName+'<br><span class="tags">'+sTag+'</span></h4><button class="delitem">remove</button></a></li>');
+			
+			if(!$('.show').eq(2).find('.itemlist li').length)
+			{
+				$('.show').eq(2).find('.empty-place-list').show();
+			}
+			else
+			{
+				$('.show').eq(1).find('.empty-place-list').hide();
+			}
+
+
+		});
+
+
+		//关闭面板
+		$('.icon-nav-exit').on('click',function (e) {
+			hideSection ();
+			e.stopPropagation();
+		});
+
+		var directions = new MapboxDirections({
+				  accessToken: 'pk.eyJ1Ijoiamlucm9uZ2NoZW5tYXBib3giLCJhIjoiY2pnaWJhdXd3MDJ4ejMybGRtdG8weDZ4ZCJ9.fv8fEBc-VINA9wcCOhSfcg',
+				  unit: 'imperial',
+				  profile: 'driving'
+			});
+
+		function createRoute ()
+		{
+			//线路规划
+			
+			var aChildren = $('.show .itemlist').children().length;
+
+			if(aChildren>2)
+			{
+				directions.setOrigin([$('.show .itemlist').children().eq(0).attr('data-lng'),$('.show .itemlist').children().eq(0).attr('data-lat')]); 
+
+				for (var i = 1; i < $('.show .itemlist').children().length-1; i++)
+				{
+					directions.addWaypoint(i,[$('.show .itemlist').children().eq(i).attr('data-lng'),$('.show .itemlist').children().eq(i).attr('data-lat')]);
+				}
+
+				directions.setDestination([$('.show .itemlist').children().eq($('.show .itemlist').children().length-1).attr('data-lng'),$('.show .itemlist').children().eq($('.show .itemlist').children().length-1).attr('data-lat')]);
+			}
+			else if(aChildren<2)
+			{	
+				alert('Pick at least two spots');
+			}
+			else
+			{
+				directions.setOrigin([$('.show .itemlist').children().eq(0).attr('data-lng'),$('.show .itemlist').children().eq(0).attr('data-lat')]); 
+		    	directions.setDestination([$('.show .itemlist').children().eq(1).attr('data-lng'),$('.show .itemlist').children().eq(1).attr('data-lat')]); 
+			}
+			
+			
+		}
+
+
+		function clearRout ()
+		{
+			directions.removeRoutes();
+		}
+
+		map.on('dragend',function () {
+			
+		var points = map.getCenter();
+			iCenterLng = points.lng;
+			iCenterLat = points.lat;
+			iStart = 0;
+			readData(aQueryTag[iStart]);
+			Lindex = layer.load(1, {
+  				shade: [0.5,'#000'] //0.1透明度的白色背景
+			});
+
+		});
+
+		directions.on('route',function (info) {
+
+			var iSteps = info[0].legs[0].steps.length;
+			var iFinelPoints = info[0].legs[0].steps[iSteps-1].maneuver.location;
+				console.log(iFinelPoints);
+		});
+
+			
+
+		var iStart = 0 ;
+		
+			readData(aQueryTag[iStart]);
+
+			Lindex = layer.load(1, {
+  				shade: [0.5,'#000'] //0.1透明度的白色背景
+			});
+
+		function readData(keywords)
+		{
+
+			$.get('https://api.mapbox.com/geocoding/v5/mapbox.places/'+keywords.name+'.json?&proximity='+iCenterLng+','+iCenterLat+'&limit=20&types=poi&access_token=pk.eyJ1Ijoiamlucm9uZ2NoZW5tYXBib3giLCJhIjoiY2pnaWJhdXd3MDJ4ejMybGRtdG8weDZ4ZCJ9.fv8fEBc-VINA9wcCOhSfcg',function (data) {
+
+				console.log(data);
+
+				iStart++;
+
+				for (var i = 0 ; i < data.features.length; i ++)
+				{
+
+					if(aPlaceData.indexOf(data.features[i].id)!=-1) //避免重复
+					{
+						continue;
+					}
+
+					aPlaceData.push(data.features[i].id);
+						creatMark ({
+							id:data.features[i].id,
+							name:data.features[i].text,
+							lng: data.features[i].center[0], 
+							lat: data.features[i].center[1],
+							tag: data.features[i].matching_text,
+							addr:data.features[i].properties.address,
+							tel:data.features[i].properties.tel?data.features[i].properties.tel:'No Phone Data',
+							icon:{
+								src:keywords.img,
+								width:75,
+								height:75
+							}
+						});
+
+				}
+
+				if(iStart<aQueryTag.length)
+				{
+					readData(aQueryTag[iStart]);
+				}
+
+				if(keywords.name == aQueryTag[aQueryTag.length-1].name)
+				{
+					layer.close(Lindex);
+				}
+				
+			});
+		}
+
+		//创建标记点
+		function creatMark (marker)
+		{
+			 
+			var el = $.parseHTML('<div style="font-weight: 700; color:#233c4c;text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff; font-size: 10px;"><img src="'+marker.icon.src+'" alt="" width="25" height="25" /> '+marker.name+'</div>');
+
+			    //弹窗
+			    var markerHeight = 98, markerRadius = 0, linearOffset = 257;
+				var popupOffsets = {
+				 'top': [0, 0],
+				 'top-left': [0,0],
+				 'top-right': [0,0],
+				 'bottom': [0, 23],
+				 'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+				 'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+				 'left': [markerRadius, (markerHeight - markerRadius) * -1],
+				 'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+				 };
+
+				var popup = new mapboxgl.Popup({closeButton:false,offset:popupOffsets}).setHTML('<div class="map-popover-view poi-popover show-actions"><div class="map-popover"><a class="map-popover-content" href=""><div class="image" style="background-image:url('+marker.icon.src+')"></div><div class="info"><div class="name">'+marker.name+'</div><div class="stats"><span class="services">'+marker.addr+'</span><br/><span class="services">Tel: '+marker.tel+'</span></div></div></a><div class="map-popover-actions"><div class="save-place" role="button"><i class="icon-nav-save-place"></i></div><div class="add-to-trip" role="button"><i class="icon-master-trip"></i><!-- react-text: 14 -->&nbsp;<!-- /react-text --><span data-id="'+marker.id+'" data-name="'+marker.name+'" data-src="'+marker.icon.src+'" data-tag="'+marker.tag+'" data-lat="'+marker.lat+'" data-lng="'+marker.lng+'" class="default">Add to Trip</span><span class="active">Added to Trip</span><span class="remove">Remove</span></div></div></div></div>');
+
+			    // add marker to map
+			    var newMk = new mapboxgl.Marker(el[0])
+			        .setLngLat([marker.lng,marker.lat])
+			        .setPopup(popup)
+			        .addTo(map);
+				
+		}
+
+
+		//ajax POST 数据到后台
+		function saveTrip ()
+		{
+			$.ajax({
+				url: '', //
+				type: 'default GET (Other values: POST)',
+				dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+				data: {param1: 'value1'},
+			})
+			.done(function() {
+				console.log("success");
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+			
+		}
+
+		//删除trip item 
+		$('body').delegate('.delitem','click',function () {
+			$(this).parent().parent().remove();
+		});
+
+		
+		
+
+	</script>
+</html>

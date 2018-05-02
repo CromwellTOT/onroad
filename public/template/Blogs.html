@@ -22,7 +22,6 @@
   </div>
 </div>
 <div class="py-3 bg-light" style="margin-top: 20px;">
-  <h1 ng-click="goBlog()" class="btn-link">Blog {{c}}</h1>
     <div class="row">
       <div class="col-md-1">
         <button class="btn btn-primary" ng-click="goPrevious()" ng-disabled="c==0"><<</button>
@@ -31,6 +30,7 @@
         <img class="img-fluid rounded mx-auto d-block" style="width: 100%;" src="{{currentBlog.imageUrl}}">
         <h3 class="my-3">{{currentBlog.title}}</h3>
         <p class="text-left">{{currentBlog.content}}</p>
+        <p class="text-right">-- Posted By <b class="btn-link" ng-click="goUser()">{{currentBlog.poster}}</p>
       </div>
       <div class="col-md-1">
         <button class="btn btn-primary" ng-click="goNext()" ng-disabled="c==blogList.length-1">>></button>

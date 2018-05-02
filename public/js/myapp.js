@@ -62,6 +62,24 @@ app.config(["$routeProvider", function($routeProvider) {
 	}).when("/register", {
 		templateUrl: "template/Register.html",
 		controller: "registerCtrl"
+	}).when("/manageBlog", {
+		templateUrl: "template/ManageBlog.html",
+		controller: "manageBlogCtrl"
+	}).when("/manageTrip", {
+		templateUrl: "template/ManageTrip.html",
+		controller: "manageTripCtrl"
+	}).when("/request", {
+		templateUrl: "template/request.html",
+		controller: "requestCtrl"
+	}).when("/viewPlan", {
+		templateUrl: "template/ViewPublicPlans.html",
+		controller: "viewPlanCtrl"
+	}).when("/map", {
+		templateUrl: "template/indexcomplete.html",
+		controller: "mapCtrl"
+	}).when("/viewOne", {
+		templateUrl: "template/ViewOtherPlans.html",
+		controller: "viewoneCtrl"
 	}).otherwise({
 		redirectTo: "home"
 	})
