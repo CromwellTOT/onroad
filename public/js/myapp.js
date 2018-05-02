@@ -164,13 +164,15 @@ app.controller("oneBlogCtrl", ["$scope", "$bs", "$routeParams", "$location", fun
 	}
 }]);
 
-app.controller("manageBlogCtrl", ["$scope", "$bs", "$authService" function($scope, $blogService, $as) {
+app.controller("manageBlogCtrl", ["$scope", "$bs", "$authService", function($scope, $blogService, $as) {
 	$scope.username = $as.getUserName();
 	$scope.myBlogList = [];
 	$blogService.getAllBlogs().then(function(blogs) {
+		//console.log(blogs);
 		var list = [];
-		for(blog in blogs) {
-			if(blog.poster = $scope.username) {
+		for(var i = 0; i < blogs.length; i++) {
+			var blog = blogs[i];
+			if(blog.poster == $scope.username) {
 				list.push(blog);
 			}
 		}
